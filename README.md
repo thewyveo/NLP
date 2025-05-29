@@ -12,6 +12,7 @@ Natural Language Processing Project for the Text Mining Course
 
 ### Directory Formation: make sure the datasets for the topic modeling component look like this:
 
+<code> ```
 topic-modeling/
 │    └── datasets/
 │        ├── archive/... (1st link)
@@ -26,3 +27,4 @@ topic-modeling/
 ├── preprocessing.py
 ├── topic_modeling.ipynb (MAIN FILE TO RUN ALL)
 └── requirements.txt (ONLY the requirements for the topic modeling component)
+``` </code>
