@@ -1,8 +1,8 @@
 # NLP
 Natural Language Processing Project for the Text Mining Course
 
-## TOPIC MODELING COMPONENT
 
+## TOPIC MODELING COMPONENT
 ### Datasets:
 
 1) https://www.cs.cornell.edu/people/pabo/movie-review-data/ (polarity dataset v2.0)
@@ -11,7 +11,7 @@ Natural Language Processing Project for the Text Mining Course
 4) https://www.kaggle.com/datasets/manhdodz249/irish-times-dataset-for-topic-model?resource=download
 
 ### Directory Formation:
-make sure the datasets for the topic modeling component look like this:
+Make sure the datasets for the topic modeling component look like this:
 <code>
 topic-modeling/
 │    └── datasets/
