@@ -10,9 +10,9 @@ Natural Language Processing Project for the Text Mining Course
 3) https://www.kaggle.com/datasets/mohamedbakhet/amazon-books-reviews/data
 4) https://www.kaggle.com/datasets/manhdodz249/irish-times-dataset-for-topic-model?resource=download
 
-### Directory Formation: make sure the datasets for the topic modeling component look like this:
-
-<code> ```
+### Directory Formation:
+make sure the datasets for the topic modeling component look like this:
+<code>
 topic-modeling/
 │    └── datasets/
 │        ├── archive/... (1st link)
@@ -27,4 +27,4 @@ topic-modeling/
 ├── preprocessing.py
 ├── topic_modeling.ipynb (MAIN FILE TO RUN ALL)
 └── requirements.txt (ONLY the requirements for the topic modeling component)
-``` </code>
+</code>
