@@ -18,3 +18,5 @@ topic_modeling/__pycache__/preprocessing.cpython-311.pyc
 topic_modeling/__pycache__/plotting.cpython-311.pyc
 topic_modeling/__pycache__/models.cpython-311.pyc
 topic_modeling/datasets/Books_rating.csv
+__pycache__
+.DS_Store
