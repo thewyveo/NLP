@@ -7,3 +7,12 @@ topic_modeling/datasets
 stanfordSentimentTreebank
 sentiment-topic-test.tsv
 NER-test.tsv
+topic_modeling/requirements.txt
+.gitignore
+topic_modeling/__pycache__/mlp.cpython-311.pyc
+topic_modeling/__pycache__/logisticreg.cpython-311.pyc
+topic_modeling/__pycache__/lda_lsa.cpython-311.pyc
+topic_modeling/__pycache__/preprocessing.cpython-311.pyc
+.gitignore
+topic_modeling/__pycache__/plotting.cpython-311.pyc
+topic_modeling/__pycache__/models.cpython-311.pyc
