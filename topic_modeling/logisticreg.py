@@ -52,7 +52,7 @@ def logreg(dataset):
         vec = vectorizer.transform([x]) # convert text to TF-IDF features
         return clf.predict(vec)[0]  # return predicted label
 
-    with open("datasets/sentiment-topic-test.tsv", "r") as f:
+    with open("topic_modeling/datasets/sentiment-topic-test.tsv", "r") as f:
         content = f.readlines()
         test_sentences = [line.split('\t')[1].strip() for line in content][1:]  # split by tabs, strip whitespace, skip header line ([1:]).
         true_labels = [line.split('\t')[-1].strip() for line in content][1:]    # test sentences are the second col. and true labels the last.

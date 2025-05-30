@@ -80,7 +80,7 @@ def lda(dataset, n_components=10):
         pred_encoded = clf.predict(topic_dist)[0]   # predict the label using the logistic regression classifier
         return le.inverse_transform([pred_encoded])[0] # invert back to original label and return prediction
     
-    with open("datasets/sentiment-topic-test.tsv", "r") as f:
+    with open("topic_modeling/datasets/sentiment-topic-test.tsv", "r") as f:
         content = f.readlines()
         test_sentences = [line.split('\t')[1].strip() for line in content][1:] # split by tabs, strip whitespace, skip header line ([1:]).
         true_labels = [line.split('\t')[-1].strip() for line in content][1:] # test sentences are the second col. and true labels the last.
@@ -153,7 +153,7 @@ def lsa(dataset, n_components=10):
         pred_encoded = clf.predict(topic_dist)[0]   # predict via log. reg.
         return le.inverse_transform([pred_encoded])[0]  # invert back to original label and return prediction
     
-    with open("datasets/sentiment-topic-test.tsv", "r") as f:       # evaluating on test dataset
+    with open("topic_modeling/datasets/sentiment-topic-test.tsv", "r") as f:       # evaluating on test dataset
         content = f.readlines()
         test_sentences = [line.split('\t')[1].strip() for line in content if line.strip()][1:]
         true_labels = [line.split('\t')[-1].strip() for line in content][1:]

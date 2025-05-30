@@ -6,7 +6,7 @@ import spacy
 from gensim.utils import simple_preprocess
 from nltk.corpus import stopwords
 
-def process_Irish_Times(path_data='datasets/archive/new_IrishTimes_test.txt', path_labels='datasets/archive/new_IrishTimes_test_label.txt'):
+def process_Irish_Times(path_data='topic_modeling/datasets/archive/new_IrishTimes_test.txt', path_labels='topic_modeling/datasets/archive/new_IrishTimes_test_label.txt'):
     '''Extracts (only) sport-related articles from Irish Times dataset.'''
     all_labels, all_data, irish_data = [], [], []
     with open(path_labels, 'r') as file:        # labels file
@@ -20,7 +20,7 @@ def process_Irish_Times(path_data='datasets/archive/new_IrishTimes_test.txt', pa
                 irish_data.append(all_data[index])
     return irish_data
 
-def process_GOAL(path='datasets/goal/data/goal.json'):
+def process_GOAL(path='topic_modeling/datasets/goal/data/goal.json'):
     '''Extracts the best sentence from each commentary in the GOAL dataset (all sports related).'''
     goal_data = []
     with open(path, 'r') as file:
@@ -55,7 +55,7 @@ def process_Cornell(path):
     movie_data = [item for sublist in movie_data for item in sublist]   # flattening nested list
     return movie_data
 
-def process_Amazon(path='datasets/Books_rating.csv'):
+def process_Amazon(path='topic_modeling/datasets/Books_rating.csv'):
     '''Extracts random sentences from the Amazon Books dataset.'''
     book_data = []
     used_books = [] # track used book titles to ensure diversity and not about a specific theme of books (since we don't shuffle the dataset either)
@@ -90,8 +90,8 @@ def combine_datasets():
     '''Helper function to label all text datasets with their respective topics (sports/movie/book) and combine them into one dataset.'''
     irish_data = process_Irish_Times()
     goal_data = process_GOAL()
-    pos_movie_data = process_Cornell('datasets/review_polarity/txt_sentoken/pos')
-    neg_movie_data = process_Cornell('datasets/review_polarity/txt_sentoken/neg')
+    pos_movie_data = process_Cornell('topic_modeling/datasets/review_polarity/txt_sentoken/pos')
+    neg_movie_data = process_Cornell('topic_modeling/datasets/review_polarity/txt_sentoken/neg')
     sport_data = irish_data + goal_data
     movie_data = pos_movie_data + neg_movie_data
     book_data = process_Amazon()
