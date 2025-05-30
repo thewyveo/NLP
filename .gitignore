@@ -3,10 +3,11 @@
 env/
 .venv/
 topic_modeling/mlp.py
-topic_modeling/datasets
-stanfordSentimentTreebank
-sentiment-topic-test.tsv
-NER-test.tsv
+topic_modeling/datasets/archive
+topic_modeling/datasets/goal
+topic_modeling/datasets/review_polarity
+topic/modeling/datasets/Books_rating.csv
+sentiment/datasets/stanfordSentimentTreebank
 topic_modeling/requirements.txt
 .gitignore
 topic_modeling/__pycache__/mlp.cpython-311.pyc
@@ -16,3 +17,4 @@ topic_modeling/__pycache__/preprocessing.cpython-311.pyc
 .gitignore
 topic_modeling/__pycache__/plotting.cpython-311.pyc
 topic_modeling/__pycache__/models.cpython-311.pyc
+topic_modeling/datasets/Books_rating.csv
