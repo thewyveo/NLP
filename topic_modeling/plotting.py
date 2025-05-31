@@ -1,6 +1,6 @@
 import matplotlib as plt
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
 
 def plotting(accuracies, data, text):
@@ -29,12 +29,12 @@ def plotting(accuracies, data, text):
             print(f'{idx+1} - correct - {y_pred} - {y_true} - {sentences[idx]}')
         all_y_pred.append(y_pred)
         all_y_true.append(y_true)
-    print(f'\n\tTotal incorrect predictions: {wrongs} out of 18')
+    print(f'\tTotal incorrect predictions: {wrongs} out of 18')
 
     labels = ['sports', 'movie', 'book']
-    print(f"\n\tConfusion Matrix ('sports', 'movie', 'book'):")
     cm = confusion_matrix(all_y_true, all_y_pred, labels=labels)
-    print(cm)
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
+    disp.plot(cmap=plt.cm.Blues)
 
     # calculating test accuracy & setting limits for y-axis
     test_accuracy = ((18-wrongs) / 18)
@@ -64,5 +64,3 @@ def plotting(accuracies, data, text):
     plt.legend()    # displays what each line represents
 
     plt.show()
-
-    return test_accuracy

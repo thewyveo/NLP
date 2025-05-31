@@ -11,8 +11,7 @@ def model_LogisticRegression(training_dataset):
     '''Logistic Regression Model for Topic Modeling.'''
     print('=== TM - Logistic Regression Model ===')
     (training_mean_acc, fold_accs), (y_pred, y_true), sentences = logreg(training_dataset)
-    acc = plotting((training_mean_acc, fold_accs), (y_pred, y_true), sentences)
-    return acc
+    plotting((training_mean_acc, fold_accs), (y_pred, y_true), sentences)
 
 def model_LDA(training_dataset):
     '''Latent Dirichlet Allocation (LDA) Model for Topic Modeling.'''
@@ -22,8 +21,7 @@ def model_LDA(training_dataset):
     print(f'\n{training_report}')
 
     print('\nTM - Evaluating LDA on test set...')      # testing phase & results
-    acc = plotting((training_mean_acc_lda, history_lda), (y_pred_lda, y_true_lda), sentences)
-    return acc
+    plotting((training_mean_acc_lda, history_lda), (y_pred_lda, y_true_lda), sentences)
         
 def model_LSA(training_dataset):
     '''Latent Semantic Analysis (LSA) Model for Topic Modeling.'''
@@ -31,8 +29,7 @@ def model_LSA(training_dataset):
     (training_mean_acc_lsa, history_lsa), (y_pred_lsa, y_true_lsa), sentences, training_report = lsa(training_dataset)
     print('\nTM - Training Classification Report:\n', training_report)
     
-    acc = plotting((training_mean_acc_lsa, history_lsa), (y_pred_lsa, y_true_lsa), sentences)
-    return acc
+    plotting((training_mean_acc_lsa, history_lsa), (y_pred_lsa, y_true_lsa), sentences)
 
 
 def Topic_Modeling_Component():
@@ -45,19 +42,10 @@ def Topic_Modeling_Component():
     print(figlet_format("Topic Modeling", font="small"))
     print('TM - Preprocessing topic modeling training dataset...')
     training_dataset = preprocess()  # Initialize the training dataset (might take a while)
-    accs_lr, accs_lda, accs_lsa = [], [], []
-    for x in range(5):
-        #print(f'TM - Model Series {x+1}/5')
-        print('TM - Preprocessing complete, moving onto topic modeling models\n')
-        acc_lr = model_LogisticRegression(training_dataset)
-        acc_lda = model_LDA(training_dataset)
-        acc_lsa = model_LSA(training_dataset)
-        accs_lr.append(acc_lr)
-        accs_lda.append(acc_lda)
-        accs_lsa.append(acc_lsa)
-    print('LR Accuracies:', accs_lr)
-    print('LDA Accuracies:', accs_lda)
-    print('LSA Accuracies:', accs_lsa)
-
+    print('TM - Preprocessing complete, moving onto topic modeling models\n')
+    model_LogisticRegression(training_dataset)
+    model_LDA(training_dataset)
+    model_LSA(training_dataset)
+    
 
 #Topic_Modeling_Component()
