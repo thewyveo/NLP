@@ -37,13 +37,15 @@ def Topic_Modeling_Component():
     
     This function initializes the training dataset and runs the topic modeling models.
     '''
-    print('\nTopic Modeling Component:')
+    print('\n\nTopic Modeling Component:\n')
     print('Preprocessing topic modeling training dataset...')
     training_dataset = preprocess()  # Initialize the training dataset (might take a while)
-    print('Preprocessing complete, moving onto topic modeling models\n')
-    model_LogisticRegression(training_dataset)
-    model_LDA(training_dataset)
-    model_LSA(training_dataset)
+    for x in range(5):
+        print(f'MODEL SERIES {x+1}/5')
+        print('Preprocessing complete, moving onto topic modeling models\n')
+        model_LogisticRegression(training_dataset)
+        model_LDA(training_dataset)
+        model_LSA(training_dataset)
 
 
 #Topic_Modeling_Component()

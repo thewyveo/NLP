@@ -1,5 +1,6 @@
 import matplotlib as plt
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
 
 
 def plotting(accuracies, data, text):
@@ -18,22 +19,27 @@ def plotting(accuracies, data, text):
     # printing prediction results
     print('IDX - C/IC - PRED LABEL - TRUE LABEL - TEXT')
     wrongs = 0
+    all_y_pred, all_y_true = [], []
     for idx, (y_pred, y_true) in enumerate(zip(y_pred, y_true)):
         if y_pred != y_true:
             print(f'{idx+1} - INcorrect - {y_pred} - {y_true} - {sentences[idx]}')
             wrongs += 1
         else:
             print(f'{idx+1} - correct - {y_pred} - {y_true} - {sentences[idx]}')
+        all_y_pred.append(y_pred)
+        all_y_true.append(y_true)
     print(f'\nTotal incorrect predictions: {wrongs} out of 18')
+
+    labels = ['sports', 'movie', 'book']
+    cm = confusion_matrix(all_y_true, all_y_pred, labels=labels)
+    print(cm)
 
     # calculating test accuracy & setting limits for y-axis
     test_accuracy = ((18-wrongs) / 18)
+    limit1, limit2 = 0.35, 0.95    # default limits for y-axis
     if test_accuracy > 0.75:
         limit1 = 0.7
         limit2 = 0.95
-    elif test_accuracy == 0.5:
-        limit1: 0.35
-        limit2: 0.85
     else:
         limit1 = 0.5
         limit2 = 0.95
