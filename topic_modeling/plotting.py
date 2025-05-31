@@ -9,6 +9,7 @@ def plotting(accuracies, data, text):
     :input: accuracies: A tuple containing the mean training accuracy and a history list of the accuracies across folds.
     :input: data: A tuple containing the predicted labels and true labels.
     :input: text: A list of sentences corresponding to the predicted labels.
+    :return: test_accuracy: The accuracy of the model on the test set.
     '''
 
     # extract all params
@@ -28,9 +29,10 @@ def plotting(accuracies, data, text):
             print(f'{idx+1} - correct - {y_pred} - {y_true} - {sentences[idx]}')
         all_y_pred.append(y_pred)
         all_y_true.append(y_true)
-    print(f'\nTotal incorrect predictions: {wrongs} out of 18')
+    print(f'\n\tTotal incorrect predictions: {wrongs} out of 18')
 
     labels = ['sports', 'movie', 'book']
+    print(f"\n\tConfusion Matrix ('sports', 'movie', 'book'):")
     cm = confusion_matrix(all_y_true, all_y_pred, labels=labels)
     print(cm)
 
@@ -62,3 +64,5 @@ def plotting(accuracies, data, text):
     plt.legend()    # displays what each line represents
 
     plt.show()
+
+    return test_accuracy
