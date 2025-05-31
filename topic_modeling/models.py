@@ -41,7 +41,13 @@ def Topic_Modeling_Component():
     print()
     print(figlet_format("Topic Modeling", font="small"))
     print('TM - Preprocessing topic modeling training dataset...')
-    training_dataset = preprocess()  # Initialize the training dataset (might take a while)
+    try:
+        training_dataset = preprocess()  # Initialize the training dataset (might take a while)
+    except Exception as e:
+        print(f'TM - Error during preprocessing: {e}.')
+        print('TM - This is most likely due to the dataset not being downloaded or being in the wrong directory.' \
+        'Please refer to the README.md file.')
+        return
     print('TM - Preprocessing complete, moving onto topic modeling models\n')
     model_LogisticRegression(training_dataset)
     model_LDA(training_dataset)
