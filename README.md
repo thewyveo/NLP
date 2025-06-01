@@ -9,7 +9,7 @@ pip install -r requirements.txt
 </code>
 
 
-## HOW TO RUN
+## HOW TO RUN
 Once the directory is formed like shown below, please **run the app.ipynb file**
     (the main script to integrate and run all components).
 
