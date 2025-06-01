@@ -6,8 +6,16 @@ import spacy
 from gensim.utils import simple_preprocess
 from nltk.corpus import stopwords
 
-def process_Irish_Times(path_data='topic_modeling/datasets/archive/new_IrishTimes_test.txt', path_labels='topic_modeling/datasets/archive/new_IrishTimes_test_label.txt'):
-    '''Extracts (only) sport-related articles from Irish Times dataset.'''
+def process_Irish_Times(path_data='topic_modeling/datasets/archive/new_IrishTimes_test.txt',
+                        path_labels='topic_modeling/datasets/archive/new_IrishTimes_test_label.txt'):
+    '''
+    Extracts (only) sport-related articles from Irish Times dataset.
+
+    :input: path_data: path to the data file
+    :input: path_labels: path to the labels file
+    :return: irish_data: a Python list of sport-related articles from the Irish Times dataset
+    '''
+
     all_labels, all_data, irish_data = [], [], []
     with open(path_labels, 'r') as file:        # labels file
         for line in file.readlines():
@@ -21,7 +29,13 @@ def process_Irish_Times(path_data='topic_modeling/datasets/archive/new_IrishTime
     return irish_data
 
 def process_GOAL(path='topic_modeling/datasets/goal/data/goal.json'):
-    '''Extracts the best sentence from each commentary in the GOAL dataset (all sports related).'''
+    '''
+    Extracts the best (longest) sentence from each commentary in the GOAL dataset (all sports related).
+
+    :input: path: path to the GOAL dataset
+    :return: goal_data: a Python list of the best sentences from the GOAL dataset
+    '''
+
     goal_data = []
     with open(path, 'r') as file:
         data = json.load(file)
@@ -35,7 +49,14 @@ def process_GOAL(path='topic_modeling/datasets/goal/data/goal.json'):
     return goal_data
 
 def process_Cornell(path):
-    '''Extracts movie reviews from the Cornell Movie Review dataset.'''
+    '''
+    Extracts movie reviews from the Cornell Movie Review dataset
+        (only up until some point, since this dataset is bigger)
+    
+    :input: path: path to the Cornell Movie Review dataset (positive or negative reviews)
+    :return: movie_data: a Python list of sentences from the Cornell Movie Review dataset
+    '''
+
     iterations = 0
     movie_data = []
     for filename in os.listdir(path):
@@ -56,7 +77,14 @@ def process_Cornell(path):
     return movie_data
 
 def process_Amazon(path='topic_modeling/datasets/Books_rating.csv'):
-    '''Extracts random sentences from the Amazon Books dataset.'''
+    '''
+    Extracts random sentences from the Amazon Books dataset.
+        (only up until some point, since this dataset is bigger)
+
+    :input: path: path to the Amazon Books dataset
+    :return: book_data: a Python list of sentences from the Amazon Books dataset
+    '''
+
     book_data = []
     used_books = [] # track used book titles to ensure diversity and not about a specific theme of books (since we don't shuffle the dataset either)
     first_160000 = pd.read_csv(path, nrows=160000)  # again early stopping to have balanced dataset since other datasets are smaller.
@@ -79,7 +107,14 @@ def process_Amazon(path='topic_modeling/datasets/Books_rating.csv'):
     return book_data
 
 def add_labels(dataset, label):
-    '''Helper function to add labels to the dataset.'''
+    '''
+    Helper function to add corresponding labels to the specified dataset.
+    
+    :input: dataset: a Python list of sentences
+    :input: label: the label to add to the dataset
+    :return: labeled_dataset: a Python list of tuples where each tuple contains the sentence and its corresponding label
+    '''
+
     labeled_dataset = []
     for instance in dataset:
         labeled = (instance, label)
@@ -87,7 +122,13 @@ def add_labels(dataset, label):
     return labeled_dataset
 
 def combine_datasets():
-    '''Helper function to label all text datasets with their respective topics (sports/movie/book) and combine them into one dataset.'''
+    '''
+    Helper function to label all text datasets with their respective topics
+    i.e., sports/movie/book; and combine them into one dataset and shuffle.
+
+    :return: final_dataset: the concatenated dataset containing all labeled training data in a Python List of tuples format.
+    '''
+
     irish_data = process_Irish_Times()
     goal_data = process_GOAL()
     pos_movie_data = process_Cornell('topic_modeling/datasets/review_polarity/txt_sentoken/pos')
@@ -101,6 +142,7 @@ def combine_datasets():
     labeled_book_data = add_labels(book_data, 'book')
 
     final_dataset = labeled_sports_data + labeled_movie_data + labeled_book_data
+    random.shuffle(final_dataset)  # shuffle the dataset to ensure diversity and avoid bias
     return final_dataset
 
 def preprocess():
@@ -112,6 +154,7 @@ def preprocess():
     :return: processed: A Python list of tuples where each tuple contains the processed text and its corresponding label.
          (we don't store the data locally but rather use it right away by calling it in the main script.)
     '''
+    
     dataset = combine_datasets()
     nlp = spacy.load('en_core_web_sm', disable=['parser', 'ner'])
     stop_words = set(stopwords.words('english'))

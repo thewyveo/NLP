@@ -14,7 +14,10 @@ def logreg(dataset):
     4. Evaluates on test data and provides prediction capability for new text.
     
     :input: dataset: A list of tuples where each element is a tuple of (text, label).
-    :return: A tuple in the format ((mean accuracy during training, accuracies across folds history), (predicted topics, true labels), test text).
+    :return: (training_mean_acc, fold_accuracies): a tuple containing the mean accuracy during training and the accuracies across folds
+    :return: (predicted_topics, true_labels): a tuple containing the predicted topics and the true labels
+    :return: test_sentences: test text
+    :return: training_report: classification report of training
     '''
 
     texts = [x[0] for x in dataset]     # extracting texts from the dataset
@@ -45,7 +48,6 @@ def logreg(dataset):
     def predict(x):
         '''
         Predict method for the Logistic Regression model.
-        
         :input: x: The input text to classify.
         :return: str: The predicted label for the input text.
         '''

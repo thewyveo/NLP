@@ -6,10 +6,20 @@ from sentiment.initialize import initialize_vader, import_test, preprocess_train
 from sentiment.analysis import analyze_results, compare_models
 
 
-def logreg(train_data, test_data): 
-    vectorizer = TfidfVectorizer(min_df=2) # Changing min_df doesnt make difference for this dataset
+def logreg(train_data, test_data):
+    '''
+    Logistic Regression model for sentiment analysis.
 
-    X_train, X_test, y_train, y_test = train_test_split(
+    :input: train_data: the training dataset containing
+    :input: test_data: the test dataset
+    :return: (predicted topics, true labels): a tuple containing the predicted and the true labels
+    :return: test_sentences: a list of sentences from the test dataset
+    ''' 
+
+    vectorizer = TfidfVectorizer(min_df=2)      # initialize TF-IDF vectorizer with minimum document frequency of 2
+          # meaning that only words appearing in at least 2 documents will be considered (to reduce noise)
+
+    X_train, X_test, y_train, y_test = train_test_split(    # split training into training & validation
         train_data['text'], 
         train_data['sentiment'], 
         test_size=0.2)
@@ -17,31 +27,36 @@ def logreg(train_data, test_data):
     X_train_vec = vectorizer.fit_transform(X_train)
     X_test_vec = vectorizer.transform(X_test)
 
-    clf = LogisticRegression(max_iter=1000)
+    clf = LogisticRegression(max_iter=1000)     # fit logistic regression model
     clf.fit(X_train_vec, y_train)
-    y_pred = clf.predict(X_test_vec)
 
     def predict(x):
         '''
         Predict method for the Logistic Regression model.
-        
-        :input: x: The input text to classify.
-        :return: str: The predicted label for the input text.
+        :input: x: the input text to classify.
+        :return: str: the predicted label for the input text.
         '''
         vec = vectorizer.transform([x]) # convert text to TF-IDF features
         return clf.predict(vec)[0]  # return predicted label
 
-    test_sentences = [line for line in test_data['sentence']]
+    test_sentences = [line for line in test_data['sentence']]  # extract sentences & labels from test data
     true_labels = [line for line in test_data['sentiment']]
-    predicted_topics = [predict(s) for s in test_sentences]
-    # predict for each sentence
+    predicted_topics = [predict(s) for s in test_sentences]   # predict for each sentence
     
     return (predicted_topics, true_labels), test_sentences
 
 def vader(sentence, nlp, vader_model, pos, lemmatize=True):
-    """
-    Run VADER on a sentence and return the scores.
-    """
+    '''
+    VADER pre-trained model for sentiment analysis.
+
+    :input: sentence: the input sentence to analyze
+    :input: nlp: the spaCy NLP model
+    :input: vader_model: the VADER model
+    :input: pos: list of part-of-speech tags to filter tokens
+    :input: lemmatize: whether to lemmatize the tokens (defaults to True)
+    :return: a dictionary of VADER sentiment scores
+    '''
+
     doc = nlp(sentence)
     input_to_vader = []
 
@@ -49,25 +64,30 @@ def vader(sentence, nlp, vader_model, pos, lemmatize=True):
         for token in sent:
             to_add = token.text
 
-            if lemmatize:
+            if lemmatize:       # lemmatize token if possible
                 to_add = token.lemma_
 
-                if to_add == '-PRON-': 
+                if to_add == '-PRON-':  # handle pronuns
                     to_add = token.text
 
-            if pos:
+            if pos:     # filter token by pos tag(s)
                 if token.pos_ in pos:
                     input_to_vader.append(to_add) 
             else:
                 input_to_vader.append(to_add)
 
-    scores = vader_model.polarity_scores(' '.join(input_to_vader))
+    scores = vader_model.polarity_scores(' '.join(input_to_vader))  # get VADER polarity (positive7negative etc.) scores
+
     return scores
 
 def vader_output_to_label(vader_output):
-    """
-    Convert VADER output to a label.
-    """
+    '''
+    Converts VADER output to a label.
+
+    :input: vader_output: the output from the VADER model
+    :return: the converted sentiment label (either 'positive', 'negative', or 'neutral') in string format
+    '''
+
     compound = vader_output['compound']
     
     if compound >= 0.1:
@@ -78,41 +98,59 @@ def vader_output_to_label(vader_output):
         return 'neutral'
     
 def run_vader(train_data, nlp, vader_model, pos):
+    '''
+    Main funcion to run the VADER components.
+    
+    :input: train_data: the training dataset
+    :input: nlp: the spaCy NLP model
+    :input: vader_model: the VADER model
+    :input: pos: list of part-of-speech tags to filter tokens
+    '''
+
     train_data_half = train_data.sample(frac=0.2)
-    predictions = train_data_half['text'].apply(lambda x: vader_output_to_label(vader(x, nlp, vader_model, pos)))
-    gold = train_data_half['sentiment']
+    _ = train_data_half['text'].apply(lambda x: vader_output_to_label(vader(x, nlp, vader_model, pos)))
+    ## the 'predictions' here is ignored/unused and turned into '_' as it is the training predictions which we do not need to store. -k
 
 def vader_predict(sentences, nlp, vader_model, pos):
-    """
-    Predict sentiment labels for a list of sentences using VADER.
-    """
+    '''
+    Predicts sentiment labels for a list of sentences using the VADER model.
+
+    :input: sentences: a list of sentences to analyze
+    :input: nlp: the spaCy NLP model
+    :input: vader_model: the VADER model
+    :input: pos: list of part-of-speech tags to filter tokens
+    :return: a list of predicted sentiment labels for each sentence
+    '''
+
     predictions = []
     for sentence in sentences:
         scores = vader(sentence, nlp, vader_model, pos)
         label = vader_output_to_label(scores)
         predictions.append(label)
+
     return predictions
 
 
 def Sentiment_Analysis_Component():
     '''
-    Sentiment Analysis Component for NLP Pipeline.
-    
-    This function initializes the training dataset and runs the sentiment analysis models.
+    Main function to run the Sentiment Analysis component. Loads the test data,
+    preprocesses the training data, initializes the VADER model, trains both models on the
+    training data, and predicts sentiment labels for the test data for each model. Finally,
+    this function compares the results of both models and analyzes the results. (the logistic
+    regression model's prediction function is defined within the function, whereas the VADER
+    model's prediction function is defined outside and called after the VADER model is run)
     '''
+
     print()
     print(figlet_format("Sentiment Analysis", font="small"))
     
-    # Initialize VADER
     test_data = import_test()
     train_data = preprocess_train_data()
     nlp, vader_model, pos = initialize_vader()
-    
-    # Run Multinomial Naive Bayes model
+
     print('\nST - Running Logistic Regression model...')
     (y_pred_logreg, y_true_logreg), test_sentences = logreg(train_data, test_data)
-    
-    # Run VADER model
+
     print('ST - Running VADER model (might take a while)...')
     run_vader(train_data, nlp, vader_model, pos)
 

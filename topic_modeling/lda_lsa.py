@@ -25,7 +25,10 @@ def lda(dataset, n_components=10):
     
     :input: dataset: A list of tuples where the first element is the text and the second element is the label.
     :input: n_components: The number of (latent) topics to extract with LDA (default is 10).
-    :return: A tuple in the format ((mean accuracy during training, accuracies across folds history), (predicted topics, true labels), test text, classification report of training).
+    :return: (lda_mean_acc, fold_accuracies): a tuple containing the mean accuracy during training and the accuracies across folds
+    :return: (predicted_topics, true_labels): a tuple containing the predicted topics and the true labels
+    :return: test_sentences: test text
+    :return: training_report: classification report of training
     '''
 
     texts = [x[0] for x in dataset]
@@ -69,11 +72,9 @@ def lda(dataset, n_components=10):
     def predict(x):
         '''
         Predict method for the LDA+Logistic Regression model.
-
         :input: x: The input text to classify.
         :return: The predicted label for the input text, inverted back to the original label
             (from 0, 1, 2 back to 'sports', 'movie', 'book').
-
         '''
         vec = vectorizer.transform([x]) # transform input to word count vector using trained vectorizer
         topic_dist = lda.transform(vec) # apply trained LDA model to get topic distribution
@@ -104,7 +105,10 @@ def lsa(dataset, n_components=10):
     
     :input: dataset: A list of tuples where the first element is the text and the second element is the label.
     :input: n_components: The number of latent dimensions to extract from the TF-IDF matrix with LSA (default is 10).
-    :return: A tuple in the format ((mean accuracy during training, accuracies across folds history), (predicted topics, true labels), test text, classification report of training).
+    :return: (lsa_mean_acc, fold_accuracies): a tuple containing the mean accuracy during training and the accuracies across folds
+    :return: (predicted_topics, true_labels): a tuple containing the predicted topics and the true labels
+    :return: test_sentences: test text
+    :return: training_report: classification report of training
     '''
 
     texts = [x[0] for x in dataset]
@@ -143,7 +147,6 @@ def lsa(dataset, n_components=10):
     def predict(x):
         '''
         Predict method for the LSA+Logistic Regression model.
-
         :input: x: The input text to classify.
         :return: The predicted label for the input text, inverted back to the original label
             (from 0, 1, 2 back to 'sports', 'movie', 'book').

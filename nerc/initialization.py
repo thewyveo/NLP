@@ -3,11 +3,17 @@ import spacy
 import pandas as pd
 
 
-def load_test_data():
-    """Load and process the NER-test.tsv file"""
-    test_df = pd.read_csv('nerc/datasets/NER-test.tsv', sep='\t')
+def load_test_data(path='nerc/datasets/NER-test.tsv'):
+    '''
+    Load and process the NER-test.tsv file. For every sentence, splits into tokens
+    and extracts the corresponding NER tags. These are then stored & returned.
     
-    # Group by sentence_id to reconstruct sentences
+    :return: sentences: list of sentences
+    :return: sentence_data: structured data for each sentence
+    '''
+
+    test_df = pd.read_csv(path, sep='\t')
+    
     sentences = []
     sentence_data = []
     
@@ -29,6 +35,13 @@ def load_test_data():
     return sentences, sentence_data
     
 def load_pretrained_models():
+    '''
+    Load the spaCy (en_core_web_tr) and BERT (w/ pipeline "ner" on dlsim base ver.) pretrained models for NERC.
+
+    :return: nlp_spacy: the spaCy model
+    :return: bert_ner: the BERT pipeline
+    '''
+
     try:
         nlp_spacy = spacy.load("en_core_web_trf")
         print("NERC - spaCy model loaded successfully.")

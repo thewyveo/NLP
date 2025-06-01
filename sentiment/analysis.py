@@ -3,13 +3,14 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 
 
 def analyze_results(results, model):
-    """
-    Compare predictions from two sentiment models.
+    '''
+    Analyzes the result of the model and prints the classification report & confusion matrix.
     
-    :param results: Tuple containing (logreg_preds, gold_labels), (vader_preds, gold_labels)
-    """
+    :input: results: the results of the model, which is a tuple of (y_pred, y_true) or (y_pred, y_true, sentences)
+    :input: model: the name of the model, e.g. 'Logistic Regression' or 'VADER'
+    '''
 
-    (y_pred, y_true) = results if model != 'VADER' else results
+    y_pred, y_true = results
 
     print(f"\n=== ST - {model} Results ===")
     print(classification_report(y_true, y_pred))
@@ -22,6 +23,16 @@ def analyze_results(results, model):
     plt.show()
 
 def compare_models(logreg_preds, vader_preds, labels, sentences):
+    '''
+    Compares the predictions of the Logistic Regression and VADER models, printing out each sentence and
+    the predicted labels for both models as well as the true labels. Also plots the accuracy of the two models.
+
+    :input: logreg_preds: predictions from the Logistic Regression model
+    :input: vader_preds: predictions from the VADER model
+    :input: labels: true labels for the sentences
+    :input: sentences: the sentences data
+    '''
+
     print("\n=== ST - Sentences ===")
     for i, (lr_pred, vader_pred, true_label) in enumerate(zip(logreg_preds, vader_preds, labels)):
         if lr_pred != vader_pred:
@@ -34,9 +45,8 @@ def compare_models(logreg_preds, vader_preds, labels, sentences):
     vader_accuracy = float(accuracy_score(labels, vader_preds))
     logreg_accuracy = float(accuracy_score(labels, logreg_preds))
     
-    # plotting
-    plt.figure(figsize=(16, 8))    # set the figure size
-    plt.subplot(1,2,1)    # 1 row, 2 columns, first subplot.
+    plt.figure(figsize=(16, 8))
+    plt.subplot(1,2,1) 
     bars = plt.bar(['VADER', 'Logistic Regression'], [vader_accuracy, logreg_accuracy], color=['red', 'blue'])
     for bar in bars:
         height = bar.get_height()

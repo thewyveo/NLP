@@ -6,10 +6,10 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 def plotting(accuracies, data, text):
     '''
     Plotting function to visualize the accuracies of the model across folds, the mean val. accuracy, and the test accuracy.
+
     :input: accuracies: A tuple containing the mean training accuracy and a history list of the accuracies across folds.
     :input: data: A tuple containing the predicted labels and true labels.
     :input: text: A list of sentences corresponding to the predicted labels.
-    :return: test_accuracy: The accuracy of the model on the test set.
     '''
 
     # extract all params
