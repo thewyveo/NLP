@@ -28,6 +28,7 @@ def model_LDA(training_dataset):
     print('\n=== TM - Supervised Latent Dirichlet Allocation (LDA) Model ===')
     print('TM - Training LDA...')       # training phase (takes longer than log. reg. model, couple minutes)
     (training_mean_acc_lda, history_lda), (y_pred_lda, y_true_lda), sentences, training_report = lda(training_dataset)
+    print('\nTM - Training Classification Report (LDA):')  # print the training report
     print(f'\n{training_report}')
 
     print('\nTM - Evaluating LDA on test set...')      # testing phase & results
@@ -43,7 +44,7 @@ def model_LSA(training_dataset):
 
     print('\n=== TM - Supervised Latent Semantic Analysis (LSA) Model ===\n')
     (training_mean_acc_lsa, history_lsa), (y_pred_lsa, y_true_lsa), sentences, training_report = lsa(training_dataset)
-    print('\nTM - Training Classification Report:\n', training_report)
+    print('\nTM - Training Classification Report (LSA):\n', training_report)
     
     plotting((training_mean_acc_lsa, history_lsa), (y_pred_lsa, y_true_lsa), sentences)
 

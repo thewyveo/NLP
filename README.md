@@ -9,6 +9,11 @@ pip install -r requirements.txt
 </code>
 
 
+## HOW TO RUN
+Once the directory is formed like shown below, please run the app.ipynb file
+    (the main script to integrate and run all components).
+
+
 ## NAMED ENTITY RECOGNITION & CLASSIFICATION COMPONENT
 ### Datasets:
 No training datasets for this component.
@@ -30,8 +35,8 @@ nerc/
 ### Datasets:
 These datasets were preprocessed and combined to form the processed_sentiment_training.csv file, via sentiment-data-preprocessing.ipynb:
 
-1) # (FATIH BENI EKLE)
-2) # (FATIH BENI EKLE)
+1) # Y. Hou et al., “Bridging Language and Items for Retrieval and Recommendation.” Available: https://arxiv.org/pdf/2403.03952
+2) # R. Socher et al., “Recursive Deep Models for Semantic Compositionality Over a Sentiment Treebank,” Association for Computational Linguistics, 2013. Available: https://aclanthology.org/D13-1170.p
 
 ### Directory Formation:
 Make sure the directory for the sentiment analysis component looks like this:
@@ -52,10 +57,10 @@ sentiment/
 ### Datasets:
 The datasets must be imported locally (due to their size), and will be preprocessed when the component is run.
 
-1) https://www.cs.cornell.edu/people/pabo/movie-review-data/ (polarity dataset v2.0)
-2) https://github.com/krystalan/goal
-3) https://www.kaggle.com/datasets/mohamedbakhet/amazon-books-reviews/data
-4) https://www.kaggle.com/datasets/manhdodz249/irish-times-dataset-for-topic-model?resource=download
+1) # B. Pang and L. Lee, "Movie Review Data," Cornell University, 2005. [Online]. Available: https://www.cs.cornell.edu/people/pabo/movie-review-data/.
+2) # M. Bakhet, "Amazon Books Reviews Dataset," Kaggle, 2018. [Online]. Available: https://www.kaggle.com/datasets/mohamedbakhet/amazon-books-reviews/data.
+3) # K. Li et al., "GOAL: A Dataset for Goal-Oriented Dialogues," GitHub, 2022. [Online]. Available: https://github.com/krystalan/goal. 
+4) # M. Dodz, "Irish Times Dataset for Topic Modeling," Kaggle, 2023. [Online]. Available: https://www.kaggle.com/datasets/manhdodz249/irish-times-dataset-for-topic-model?resource=download.
 
 ### Directory Formation:
 Make sure the directory for the topic modeling component looks like this:
