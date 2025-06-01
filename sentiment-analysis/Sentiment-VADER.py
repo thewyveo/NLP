@@ -52,7 +52,7 @@ VU_test_data = pd.read_csv('sentiment-topic-test.tsv', sep='\t')
 VU_test_data.drop('sentence_id', axis=1, inplace=True)
 
 # Loading the combined dataset amazon reviews and Stanford Sentiment Treebank
-dataset_combined = pd.read_csv('dataset_combined.csv')
+dataset_combined = pd.read_csv('new_dataset_combined.csv')
 dataset_combined.dropna(subset=['text', 'sentiment'], inplace=True)
 
 # Initialize models

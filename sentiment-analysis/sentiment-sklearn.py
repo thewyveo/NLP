@@ -12,7 +12,7 @@ import numpy as np
 RANDOM_SEED = 42
 np.random.seed(RANDOM_SEED)
 
-dataset_combined = pd.read_csv('undersampled_dataset.csv')
+dataset_combined = pd.read_csv('new_dataset_combined.csv')
 dataset_combined.dropna(subset=['text', 'sentiment'], inplace=True)
 
 def run_cross_validation(vectorizer_type, classifier_type, cv_splits=5):
