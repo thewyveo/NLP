@@ -12,8 +12,8 @@ def logreg(train_data, test_data):
     '''
     Logistic Regression model for sentiment analysis using stratified 5-fold cross validation.
     1. Converts raw text into TF-IDF feature vectors.
-    2. Uses stratified 5-fold cross-validation to boost performance. (dataset is small, but when we implemented CV in the
-            training phase, the accuracy went up from 0.55 to 1.0 on the test set!)
+    2. Uses stratified 5-fold cross-validation to boost performance. (dataset is small,
+    but when we implemented CV in the training phase, the accuracy went up)
     3. Trains (fits) a logistic regression classifier on the text features.
     4. Predicts on test data and returns results.
 
@@ -45,13 +45,11 @@ def logreg(train_data, test_data):
     )     # stores cv scores for each fold
 
     training_mean_acc = np.mean(cv_scores)     # calculate mean accuracy across all folds
-    print(f"\nST - Logistic Regression Model Training Complete.\nTraining Mean Accuracy: {training_mean_acc:.4f}")  # print training mean accuracy
-    pipeline.fit(X_train, y_train)
+    print(f"\nST - Logistic Regression Model Training Complete.\nTraining Mean Accuracy: {training_mean_acc:.4f}\n")  # print training mean accuracy
+    pipeline.fit(X_train, y_train)      # fit the pipeline on the training data
     
     # test part
     predictions = pipeline.predict(test_data['sentence'])  # predict sentiment labels for the test data
-    test_data['sentiment'] = predictions  # add predictions to the test data
-
     return (predictions, test_data['sentiment']), test_data['sentence']  # return (predictions, true labels), test sentences
 
 def vader(sentence, nlp, vader_model, pos, lemmatize=True):

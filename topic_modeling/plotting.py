@@ -34,7 +34,7 @@ def plotting(accuracies, data, text):
     labels = ['sports', 'movie', 'book']
     cm = confusion_matrix(all_y_true, all_y_pred, labels=labels)
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
-    disp.plot(cmap=plt.cm.Blues)
+    disp.plot(cmap=plt.cm.YlOrRd)
 
     # calculating test accuracy & setting limits for y-axis
     test_accuracy = ((18-wrongs) / 18)
